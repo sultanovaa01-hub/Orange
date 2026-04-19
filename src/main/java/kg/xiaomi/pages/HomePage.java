@@ -17,6 +17,6 @@ public class HomePage extends BasePage<HomePage>{
     }
     public AdminPage goToAboutPage (){
        adminBtn.shouldBe(visible).click();
-        return Selenide.page(AboutPage.class);
+        return Selenide.page(AdminPage.class);
     }
 }
