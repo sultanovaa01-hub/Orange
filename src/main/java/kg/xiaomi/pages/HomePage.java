@@ -9,6 +9,7 @@ import static com.codeborne.selenide.Selenide.$x;
 public class HomePage extends BasePage<HomePage>{
     SelenideElement orangLogo = $x("//img[@alt='client brand banner']");
     SelenideElement adminBtn = $x("//span[text()='Admin']");
+    SelenideElement searchBtn = $x("//button[@type='submit']");
 
     @Override
     public HomePage waitForPageToBeLoaded() {
@@ -18,5 +19,9 @@ public class HomePage extends BasePage<HomePage>{
     public AdminPage goToAboutPage (){
        adminBtn.shouldBe(visible).click();
         return Selenide.page(AdminPage.class);
+    }
+    public LeavePage goToLeavePage (){
+    searchBtn.shouldBe(visible);
+    return Selenide.page(LeavePage.class);
     }
 }
