@@ -1,27 +1,42 @@
 package kg.xiaomi.pages;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
 
-public class HomePage extends BasePage<HomePage>{
-    SelenideElement orangLogo = $x("//img[@alt='client brand banner']");
-    SelenideElement adminBtn = $x("//span[text()='Admin']");
-    SelenideElement searchBtn = $x("//button[@type='submit']");
+public class HomePage extends BasePage<HomePage> {
+    SelenideElement mashinaKgSearchBtn = $x("//a[@class='menu-items']");
 
     @Override
     public HomePage waitForPageToBeLoaded() {
-        orangLogo.shouldBe(visible);
+        mashinaKgSearchBtn.shouldBe(visible);
         return Selenide.page(this);
     }
-    public AdminPage goToAboutPage (){
-       adminBtn.shouldBe(visible).click();
-        return Selenide.page(AdminPage.class);
+
+    public SearchPage goToSearchPage (){
+        mashinaKgSearchBtn.shouldBe(visible);
+        mashinaKgSearchBtn.click();
+        return Selenide.page(SearchPage.class);
     }
-    public LeavePage goToLeavePage (){
-    searchBtn.shouldBe(visible);
-    return Selenide.page(LeavePage.class);
+
+    public SelenideElement selectCategory(String category) {
+        SelenideElement passengerCarCatSearch = $x
+                ("//a[contains(@class,'menu-items') and normalize-space()='" + category + "']")
+                .shouldBe(Condition.visible);
+
+        passengerCarCatSearch.hover();
+        return passengerCarCatSearch;
+    }
+
+    public void selectSubcategory(String category, String subcategory) {
+        SelenideElement categoryElement = selectCategory(category);
+
+        categoryElement.parent()
+                .$x(".//ul//a[contains(.,'" + subcategory + "')]")
+                .shouldBe(Condition.visible)
+                .click();
     }
 }
+
