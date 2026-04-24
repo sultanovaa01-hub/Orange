@@ -1,9 +1,9 @@
 package kg.xiaomi.pages;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class HomePageAutomation extends BasePage<HomePageAutomation>{
@@ -12,6 +12,7 @@ public class HomePageAutomation extends BasePage<HomePageAutomation>{
     SelenideElement signupLink = $x("//a[@href='/login']");
     SelenideElement loggedInLabel = $x("//a[contains(text(),'Logged in as')]");
 
+    @Step("Click Sighup Link")
     public HomePageAutomation clickSignupLink (){
         signupLink.shouldBe(visible,clickable).click();
         return this;

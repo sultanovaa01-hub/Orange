@@ -1,9 +1,11 @@
 package ebay.auth.test;
 
+import io.qameta.allure.Link;
+import io.qameta.allure.Owner;
+import io.qameta.allure.Step;
 import kg.ebay.User;
-import kg.ebay.pages.RegistrationPage;
 import kg.xiaomi.pages.HomePageAutomation;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import xiaomi.BaseTest;
 
@@ -12,6 +14,9 @@ import static com.codeborne.selenide.Selenide.open;
 public class RegistrationTest extends BaseTest {
 
     @Test
+    @DisplayName("registered user enters his data")
+    @Owner("Aliya")
+    @Link("https://automationexercise.com")
     void login(){
         open("https://automationexercise.com");
         HomePageAutomation homePageAutomation = new HomePageAutomation();

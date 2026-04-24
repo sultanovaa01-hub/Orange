@@ -1,6 +1,7 @@
 package kg.ebay.pages;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import kg.xiaomi.pages.BasePage;
 import org.openqa.selenium.Keys;
 
@@ -36,13 +37,32 @@ public class RegistrationPage extends BasePage <RegistrationPage> {
     SelenideElement mobile = $("input[id='mobile_number']");
     SelenideElement create_acc = $("button[data-qa='create-account']");
 
-    public RegistrationPage login (String loginName, String loginPassword){
-        emailLogin.shouldBe(visible,interactable).sendKeys(loginName);
-        passwordLogin.shouldBe(visible).sendKeys(loginPassword);
-        loginBtn.click();
-        return this;
+//    @Step("Enter name and last name")
+//    public RegistrationPage login (String loginName, String loginPassword){
+//        emailLogin.shouldBe(visible,interactable).sendKeys(loginName);
+//        passwordLogin.shouldBe(visible).sendKeys(loginPassword);
+//        loginBtn.click();
+//        return this;
+//    }
+    public void login(String email, String password) {
+    enterEmail(email);
+    enterPassword(password);
+    clickLogin();
+}
+    @Step("Enter email: {email}")
+    public void enterEmail(String email) {
+        emailLogin.setValue(email);
     }
 
+    @Step("Enter password")
+    public void enterPassword(String password) {
+        passwordLogin.setValue(password);
+    }
+
+    @Step("Click login button")
+    public void clickLogin() {
+        loginBtn.click();
+    }
 
     public RegistrationPage register (String name, String email,String title,String password, int dayInput,
                                       String monthInput, int yearInput, String firstNameInput, String lastNameInput,
