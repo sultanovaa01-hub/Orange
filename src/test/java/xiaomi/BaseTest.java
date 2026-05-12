@@ -30,7 +30,7 @@ public class BaseTest {
                         .savePageSource(true)
         );
 
-        open(ConfugurationManager.getBaseConfig().baseUrl());
+        //open(ConfugurationManager.getBaseConfig().baseUrl());
 
         homePage = new HomePage();
         searchPage = new SearchPage();

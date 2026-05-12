@@ -35,6 +35,8 @@ dependencies {
     implementation("io.qameta.allure:allure-java-commons:2.25.0")
     testImplementation("io.qameta.allure:allure-selenide:2.25.0")
     testImplementation("io.qameta.allure:allure-junit5:2.25.0")
+
+    implementation("io.rest-assured:rest-assured:6.0.0")
 }
 
 allure {

@@ -1,23 +1,20 @@
 package kg.ebay.pages;
 
 import com.codeborne.selenide.SelenideElement;
-import io.qameta.allure.Step;
-import kg.xiaomi.pages.BasePage;
+import kg.ebay.User;
 import org.openqa.selenium.Keys;
 
-import static com.codeborne.selenide.Condition.interactable;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
-public class RegistrationPage extends BasePage <RegistrationPage> {
+public class RegistrationPage {
 
     SelenideElement loginForm = $x("//div[@class='login-form']");
     SelenideElement emailLogin = $("input[data-qa='login-email']");
     SelenideElement passwordLogin = $("input[data-qa='login-password']");
+    SelenideElement errorLoginMessage = $x("//p[text()='Your email or password is incorrect!']");
     SelenideElement loginBtn = $("button[data-qa='login-button']");
-
-
     SelenideElement nameInput = $("input[data-qa='signup-name']");
     SelenideElement emailInput = $("input[data-qa='signup-email']");
     SelenideElement signupBtn = $("button[data-qa='signup-button']");
@@ -37,40 +34,24 @@ public class RegistrationPage extends BasePage <RegistrationPage> {
     SelenideElement mobile = $("input[id='mobile_number']");
     SelenideElement create_acc = $("button[data-qa='create-account']");
 
-//    @Step("Enter name and last name")
-//    public RegistrationPage login (String loginName, String loginPassword){
-//        emailLogin.shouldBe(visible,interactable).sendKeys(loginName);
-//        passwordLogin.shouldBe(visible).sendKeys(loginPassword);
-//        loginBtn.click();
-//        return this;
-//    }
-    public void login(String email, String password) {
-    enterEmail(email);
-    enterPassword(password);
-    clickLogin();
-}
-    @Step("Enter email: {email}")
-    public void enterEmail(String email) {
-        emailLogin.setValue(email);
+    public void shouldBeLoaded (){
+    $("h2").shouldHave(text("Login to your account")).shouldBe(visible);
     }
 
-    @Step("Enter password")
-    public void enterPassword(String password) {
-        passwordLogin.setValue(password);
+    public void shouldSeeAccountInformation(){
+        $x("//b[text()='Enter Account Information']").shouldBe(visible);
     }
-
-    @Step("Click login button")
-    public void clickLogin() {
-        loginBtn.click();
-    }
-
-    public RegistrationPage register (String name, String email,String title,String password, int dayInput,
-                                      String monthInput, int yearInput, String firstNameInput, String lastNameInput,
-                                      String companyInput, String addressInput, String countryInput,
-                                      String stateInput, String cityInput, int zipcodeInput, int mobileInput){
+    public void registerFirstPage (String name, String email) {
         nameInput.shouldBe(visible).sendKeys(name + Keys.RETURN);
         emailInput.shouldBe(visible).sendKeys(email);
         signupBtn.shouldBe(visible).click();
+    }
+
+    public void registerSecondPage (String title,String password, int dayInput,
+                                      String monthInput, int yearInput, String firstNameInput, String lastNameInput,
+                                      String companyInput, String addressInput, String countryInput,
+                                      String stateInput, String cityInput, int zipcodeInput, int mobileInput){
+
         $("input[value='"+ title+"']").shouldBe(visible).click();
         passwordField.shouldBe(visible).sendKeys(password);
         day.shouldBe(visible).selectOption(dayInput);
@@ -87,16 +68,17 @@ public class RegistrationPage extends BasePage <RegistrationPage> {
         zipcode.shouldBe(visible).sendKeys(String.valueOf(zipcodeInput));
         mobile.shouldBe(visible).sendKeys(String.valueOf(mobileInput));
         create_acc.shouldBe(visible).click();
-
-        return this;
     }
 
-
-
-
-    @Override
-    public RegistrationPage waitForPageToBeLoaded() {
+    public  void shouldSeeLoginForm(){
         loginForm.shouldBe(visible);
-        return this;
+    }
+    public void enterEmailPassword (String email,String password){
+        emailLogin.shouldBe(visible).sendKeys(email);
+        passwordLogin.shouldBe(visible).sendKeys(password);
+        loginBtn.shouldBe(visible).click();
+    }
+    public void setErrorLoginMessage (){
+        errorLoginMessage.should(appear);
     }
 }

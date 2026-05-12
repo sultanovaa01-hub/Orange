@@ -1,36 +1,54 @@
 package ebay.auth.test;
 
-import io.qameta.allure.Link;
 import io.qameta.allure.Owner;
-import io.qameta.allure.Step;
-import kg.ebay.User;
-import kg.xiaomi.pages.HomePageAutomation;
+import kg.ebay.NewUserNameEmail;
+import kg.ebay.NewUsers;
+import kg.ebay.steps.RegistrationSteps;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import xiaomi.BaseTest;
-
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$x;
 
 public class RegistrationTest extends BaseTest {
+    RegistrationSteps registrationSteps = new RegistrationSteps();
 
     @Test
-    @DisplayName("registered user enters his data")
+    @DisplayName("User should see signup form")
     @Owner("Aliya")
-    @Link("https://automationexercise.com")
-    void login(){
-        open("https://automationexercise.com");
-        HomePageAutomation homePageAutomation = new HomePageAutomation();
-        homePageAutomation.clickSignupLink();
-        registrationPage.login(User.USER_AIMAN.getEmail(),User.USER_AIMAN.getPassword());
-        homePageAutomation.shouldBeLoggedIn();
+    @Tag("REGISTER")
+    void shouldSeeSignupForm() {
+        registrationSteps.openSignupPage();
+        registrationSteps.verifySignupFormIsVisible();
     }
+
     @Test
-    void registerTest() {
+    @DisplayName("User should proceed to account information after entering name and email")
+    @Owner("Aliya")
+    @Tag("REGISTER")
+    void shouldNavigateToAccountInfo() {
+        registrationSteps.openSignupPage();
+        registrationSteps.fillFirstStep(NewUserNameEmail.ESMA);
+        $x("//h2[text()='New User Signup!']").shouldBe(visible);
+    }
 
-    open("https://automationexercise.com/login");
+    @Test
+    @DisplayName("User should complete registration form")
+    @Owner("Aliya")
+    @Tag("REGISTER")
+    void shouldVFillFullRegistrationForm() {
+        registrationSteps.openSignupPage();
+        registrationSteps.fillFirstStep(NewUserNameEmail.ESMA);
+        registrationSteps.fillSecondStep(NewUsers.ESMA);
+    }
 
-    registrationPage.register("Aliya", "aliyaaiman@gmail.com", "Mrs", "12345",25, "October",
-            2010,"Aliya","Sultanova","IT","Voroshilov","United States",
-            "Cali","San Fransisco",12345,213456);
-}
+    @Test
+    @DisplayName("User enters incorrect creds")
+    @Owner("Aliya")
+    @Tag("LOGIN")
+    void shouldShowErrorForInvalidLogin(){
+        registrationSteps.openLoginPage();
+        registrationSteps.fillLoginInfo("baisal@gmail.com","baisal");
+    }
 }
